@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_DATABASE=duc1234
+      - MYSQL_ROOT_PASSWORD=123456
+    ports:
+      - '3307:3306'
+    volumes:
+      - db-data:/var/lib/mysql
+  app1:
+    build:
+      context: ./oauth2
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/duc1234
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 123456
+    ports:
+      - '8081:8080'
+
+volumes:
+    db-data:
+      driver: local
