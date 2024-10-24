@@ -9,7 +9,9 @@ services:
     ports:
       - '3307:3306'
     volumes:
-      - db-data:/var/lib/mysql
+      - ./db:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/my.cnf # DOUBLE CHECK THE CONF! Mount custom MySQL configuration file
+      - ./db_init.sql:/docker-entrypoint-initdb.d/db_init.sql # Mount SQL initialization scripts
   app1:
     build:
       context: ./oauth2
